@@ -1,0 +1,22 @@
+# Node
+node_modules/
+dist/
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+*.egg-info/
+
+# Whisper model cache
+ai-service/.cache/
+
+# Uploaded audio files (not committed to git)
+backend/uploads/
+
+# OS / editor
+.DS_Store
+.vscode/
+*.log
