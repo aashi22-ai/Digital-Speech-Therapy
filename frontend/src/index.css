@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+    color: #4b4b4b;
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  /* Duolingo 3D Tactile Buttons */
+  .btn-duo {
+    @apply select-none font-extrabold uppercase tracking-wider text-sm rounded-2xl px-6 py-3 transition-all duration-100 flex items-center justify-center gap-2 border-b-4 active:border-b-0 active:translate-y-1 disabled:opacity-50 disabled:pointer-events-none disabled:transform-none disabled:border-b-4;
+  }
+
+  .btn-duo-green {
+    @apply btn-duo bg-duo-yellow text-slate-900 border-duo-yellow-dark hover:brightness-105 active:bg-duo-yellow;
+  }
+
+  .btn-duo-blue {
+    @apply btn-duo bg-duo-blue text-white border-duo-blue-dark hover:brightness-105 active:bg-duo-blue;
+  }
+
+  .btn-duo-red {
+    @apply btn-duo bg-duo-red text-white border-duo-red-dark hover:brightness-105 active:bg-duo-red;
+  }
+
+  .btn-duo-yellow {
+    @apply btn-duo bg-duo-yellow text-slate-900 border-duo-yellow-dark hover:brightness-105 active:bg-duo-yellow;
+  }
+
+  .btn-duo-purple {
+    @apply btn-duo bg-duo-purple text-white border-duo-purple-dark hover:brightness-105 active:bg-duo-purple;
+  }
+
+  .btn-duo-gray {
+    @apply btn-duo bg-white text-duo-neutral border-duo-gray hover:bg-slate-50 border-2 border-b-4 border-solid active:border-b-2;
+  }
+
+  .btn-duo-outline {
+    @apply btn-duo bg-transparent text-duo-blue border-2 border-b-4 border-duo-blue-dark hover:bg-duo-blue-light/30 active:border-b-2;
+  }
+
+  /* Duolingo Card style */
+  .card-duo {
+    @apply bg-white rounded-2xl border-2 border-duo-gray p-5 shadow-sm transition hover:border-slate-300;
+  }
+}
