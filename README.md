@@ -1,6 +1,6 @@
 # Digital Speech Therapy (Duospeech)
 
-An AI-powered speech practice platform transformed with a full **Duolingo-style gamified learning experience**. Users practice pronunciation and fluency, record their voice, receive real AI-assisted feedback, and advance through interactive skill paths with streaks, leagues, gems, and hearts.
+An AI-powered speech practice platform . Users practice pronunciation and fluency, record their voice, receive real AI-assisted feedback, and advance through interactive skill paths with streaks, leagues, gems, and hearts.
 
 ## Architecture
 
@@ -86,14 +86,14 @@ Open http://localhost:5173
     - Success (>= 70%): Green slide-up bar, ascending chime, celebratory mascot, and word diff review.
     - Needs Practice (< 70%): Red slide-up bar, gentle reminder bonk, -1 heart animation, and supportive feedback.
 
-- **Duolingo Gamification Engine:**
+- ** Gamification Engine:**
   - **XP & Levels:** Earn XP per speech attempt with accuracy bonuses for 80%+ and 90%+.
   - **Daily Streaks:** Streak tracker (🔥) to encourage daily habits with streak freeze protection.
   - **Hearts (Health):** 5-heart system with refill capabilities via practice or gem purchases.
   - **Lingots / Gems:** In-app currency (💎) earned from exercises, quests, and milestone chests.
   - **Leaderboards / Leagues:** Weekly league table (Bronze to Diamond) featuring promotion zones and friendly competition.
   - **Daily Quests:** 3 daily challenges with progress tracking and gem claim rewards.
-  - **Duolingo Shop:** In-game store for Heart Refills, Streak Freezes, Double XP Boosts, and trophies.
+  - ** Shop:** In-game store for Heart Refills, Streak Freezes, Double XP Boosts, and trophies.
 
 - **Audio & Visual Polish:**
   - **Web Audio Sound Effects:** Zero-dependency, real-time audio synthesizer reproducing Duolingo's signature rising success chime, soft error bonk, tactile button pops, chest unlocks, and fanfare. Includes global mute/unmute toggle.
@@ -113,4 +113,4 @@ Open http://localhost:5173
 - Phase 4 - UI polish, error handling, validation (done)
 - Phase 5 - Stretch features: categories, difficulty filtering, admin panel (done)
 - Phase 6 - Multi-language support, word-level accuracy feedback (done)
-- Phase 7 - Duolingo Gamification: learning path snake, mascot, Web Audio effects, XP, streaks, hearts, gems, quests, leagues, shop (done)
+- Phase 7 - Gamification: learning path snake, mascot, Web Audio effects, XP, streaks, hearts, gems, quests, leagues, shop (done)
