@@ -52,8 +52,9 @@ services:
   # ===============================================================
   # 3. Frontend (React Vite SPA)
   # ===============================================================
-  - type: static
+  - type: web
     name: digital-speech-therapy-frontend
+    runtime: static
     rootDir: frontend
     plan: free
     buildCommand: npm install && npm run build
