@@ -133,34 +133,65 @@ const buyShopItem = asyncHandler(async (req, res) => {
 
 // GET /api/progress/leaderboard
 const getLeaderboard = asyncHandler(async (req, res) => {
-  const progress = await Progress.findOne({ userId: req.user._id });
-  const userXp = progress?.weeklyXp || progress?.xp || 0;
+  const currentProgress = await Progress.findOne({ userId: req.user._id });
 
-  // Base cohort of fellow speech learners for lively gamified competition
-  const cohort = [
-    { name: "Maya Patel", avatar: "🦊", xp: Math.max(340, userXp + 60), isUser: false },
-    { name: "David Kim", avatar: "🦉", xp: Math.max(290, userXp + 35), isUser: false },
-    { name: "Sophia Chen", avatar: "🐻", xp: Math.max(230, userXp + 15), isUser: false },
-    { name: req.user.name + " (You)", avatar: "🎙️", xp: userXp, isUser: true },
-    { name: "Liam Watson", avatar: "🦁", xp: Math.max(45, userXp - 25), isUser: false },
-    { name: "Elena Rostova", avatar: "🐼", xp: Math.max(30, userXp - 45), isUser: false },
-    { name: "Lucas Moreau", avatar: "🐨", xp: Math.max(15, userXp - 60), isUser: false },
-    { name: "Aarav Sharma", avatar: "🐯", xp: Math.max(10, userXp - 80), isUser: false },
-  ];
+  // Fetch all registered users from the database
+  const users = await User.find({}, "name email createdAt").lean();
+  const allProgress = await Progress.find({}).lean();
 
-  cohort.sort((a, b) => b.xp - a.xp);
+  const progressMap = {};
+  allProgress.forEach((p) => {
+    if (p.userId) {
+      progressMap[p.userId.toString()] = p;
+    }
+  });
 
-  const ranked = cohort.map((player, idx) => ({
-    rank: idx + 1,
+  const avatarPool = ["🦊", "🐻", "🦁", "🐼", "🐨", "🐯", "🐰", "🐶", "🐱", "🦉", "🦄", "🐸"];
+  const getAvatar = (user, isUser) => {
+    if (isUser) return "🐧";
+    let hash = 0;
+    const str = user._id ? user._id.toString() : user.name || "";
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash * 31 + str.charCodeAt(i)) % avatarPool.length;
+    }
+    return avatarPool[hash];
+  };
+
+  const players = users.map((u) => {
+    const isUser = u._id.toString() === req.user._id.toString();
+    const prog = progressMap[u._id.toString()];
+    const xp = prog?.weeklyXp || prog?.xp || 0;
+
+    return {
+      userId: u._id,
+      name: isUser ? `${u.name} (You)` : u.name,
+      avatar: getAvatar(u, isUser),
+      xp,
+      isUser,
+      createdAt: u.createdAt,
+    };
+  });
+
+  // Sort by weekly XP descending, then earlier registered users
+  players.sort((a, b) => {
+    if (b.xp !== a.xp) return b.xp - a.xp;
+    return new Date(a.createdAt) - new Date(b.createdAt);
+  });
+
+  const ranked = players.map((player, idx) => ({
     ...player,
+    rank: idx + 1,
     inPromotionZone: idx < 3,
-    inDemotionZone: idx >= 7,
+    inDemotionZone: players.length > 5 && idx >= players.length - 2,
   }));
 
+  const userPlayer = ranked.find((p) => p.isUser);
+
   res.json({
-    league: progress?.league || "Bronze",
+    league: currentProgress?.league || "Bronze",
     players: ranked,
-    userRank: ranked.find((p) => p.isUser)?.rank || 4,
+    userRank: userPlayer?.rank || 1,
+    totalPlayers: ranked.length,
     daysRemaining: 3,
   });
 });

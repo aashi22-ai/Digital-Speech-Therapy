@@ -20,24 +20,19 @@ export default function LeaderboardPage() {
         setLeaderboardData(res.data);
       })
       .catch(() => {
-        // Fallback simulated cohort
-        const userTotal = weeklyXp || 45;
-        const cohort = [
-          { rank: 1, name: "Maya Patel", avatar: "🦊", xp: Math.max(340, userTotal + 60), isUser: false },
-          { rank: 2, name: "David Kim", avatar: "🦉", xp: Math.max(290, userTotal + 35), isUser: false },
-          { rank: 3, name: "Sophia Chen", avatar: "🐻", xp: Math.max(230, userTotal + 15), isUser: false },
-          { rank: 4, name: (user?.name || "You") + " (You)", avatar: "🎙️", xp: userTotal, isUser: true },
-          { rank: 5, name: "Liam Watson", avatar: "🦁", xp: Math.max(45, userTotal - 25), isUser: false },
-          { rank: 6, name: "Elena Rostova", avatar: "🐼", xp: Math.max(30, userTotal - 45), isUser: false },
-          { rank: 7, name: "Lucas Moreau", avatar: "🐨", xp: Math.max(15, userTotal - 60), isUser: false },
-        ];
-        cohort.sort((a, b) => b.xp - a.xp);
-        cohort.forEach((p, i) => {
-          p.rank = i + 1;
-        });
+        // Offline / fallback displaying the active user
+        const userTotal = weeklyXp || 0;
         setLeaderboardData({
           league: league || "Bronze",
-          players: cohort,
+          players: [
+            {
+              rank: 1,
+              name: (user?.name || "You") + " (You)",
+              avatar: "🐧",
+              xp: userTotal,
+              isUser: true,
+            },
+          ],
           daysRemaining: 3,
         });
       })
@@ -76,69 +71,77 @@ export default function LeaderboardPage() {
 
           {/* Leaderboard Table */}
           <div className="border-2 border-duo-gray rounded-3xl overflow-hidden shadow-xs divide-y-2 divide-duo-gray">
-            {leaderboardData?.players?.map((player) => {
-              const isPromo = player.rank <= 3;
-              const isUser = player.isUser;
+            {loading ? (
+              <div className="p-8 text-center text-duo-neutral font-bold text-sm">
+                Loading league standings...
+              </div>
+            ) : leaderboardData?.players?.length > 0 ? (
+              leaderboardData.players.map((player) => {
+                const isPromo = player.rank <= 3;
+                const isUser = player.isUser;
 
-              return (
-                <div
-                  key={player.rank}
-                  className={`flex items-center justify-between p-4 transition ${
-                    isUser
-                      ? "bg-yellow-50/80 font-black border-l-6 border-l-duo-yellow"
-                      : isPromo
-                      ? "bg-white hover:bg-slate-50"
-                      : "bg-white hover:bg-slate-50"
-                  }`}
-                >
-                  <div className="flex items-center gap-3.5">
-                    {/* Rank indicator */}
-                    <div className="w-7 text-center">
-                      {player.rank === 1 ? (
-                        <span className="text-xl">🥇</span>
-                      ) : player.rank === 2 ? (
-                        <span className="text-xl">🥈</span>
-                      ) : player.rank === 3 ? (
-                        <span className="text-xl">🥉</span>
-                      ) : (
-                        <span className="text-sm font-black text-duo-neutral">
-                          {player.rank}
-                        </span>
-                      )}
+                return (
+                  <div
+                    key={player.userId || player.rank}
+                    className={`flex items-center justify-between p-4 transition ${
+                      isUser
+                        ? "bg-yellow-50/80 font-black border-l-6 border-l-duo-yellow"
+                        : "bg-white hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5">
+                      {/* Rank indicator */}
+                      <div className="w-7 text-center">
+                        {player.rank === 1 ? (
+                          <span className="text-xl">🥇</span>
+                        ) : player.rank === 2 ? (
+                          <span className="text-xl">🥈</span>
+                        ) : player.rank === 3 ? (
+                          <span className="text-xl">🥉</span>
+                        ) : (
+                          <span className="text-sm font-black text-duo-neutral">
+                            {player.rank}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Avatar */}
+                      <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-xl shadow-xs border border-duo-gray">
+                        {player.avatar}
+                      </div>
+
+                      {/* Name */}
+                      <div>
+                        <p
+                          className={`text-sm ${
+                            isUser ? "font-black text-amber-900" : "font-bold text-duo-dark"
+                          }`}
+                        >
+                          {player.name}
+                        </p>
+                        {isPromo && (
+                          <span className="text-[10px] font-black uppercase text-amber-700 flex items-center gap-0.5">
+                            <ChevronUp className="w-3 h-3 stroke-[3]" /> Promoted
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Avatar */}
-                    <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-xl shadow-xs border border-duo-gray">
-                      {player.avatar}
-                    </div>
-
-                    {/* Name */}
-                    <div>
-                      <p
-                        className={`text-sm ${
-                          isUser ? "font-black text-amber-900" : "font-bold text-duo-dark"
-                        }`}
-                      >
-                        {player.name}
-                      </p>
-                      {isPromo && (
-                        <span className="text-[10px] font-black uppercase text-amber-700 flex items-center gap-0.5">
-                          <ChevronUp className="w-3 h-3 stroke-[3]" /> Promoted
-                        </span>
-                      )}
+                    {/* XP */}
+                    <div className="text-right">
+                      <span className="text-sm font-black text-duo-dark">{player.xp}</span>
+                      <span className="text-[10px] font-black uppercase text-duo-neutral ml-1">
+                        XP
+                      </span>
                     </div>
                   </div>
-
-                  {/* XP */}
-                  <div className="text-right">
-                    <span className="text-sm font-black text-duo-dark">{player.xp}</span>
-                    <span className="text-[10px] font-black uppercase text-duo-neutral ml-1">
-                      XP
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <div className="p-8 text-center text-duo-neutral font-bold text-sm">
+                No registered learners found yet. Complete speech exercises to claim the #1 spot!
+              </div>
+            )}
           </div>
 
           {/* Mascot Coaching Tip */}
