@@ -1,4 +1,4 @@
-// Web Audio API Synthesizer for authentic Duolingo-style sound effects
+// Web Audio API Synthesizer for authentic Duo Speech sound effects
 // 100% self-contained, instant playback, zero network assets needed!
 
 let audioCtx = null;
@@ -25,7 +25,7 @@ export function setSoundEnabled(enabled) {
   localStorage.setItem("duo_sound_enabled", enabled ? "true" : "false");
 }
 
-// Duolingo Signature Rising Chime (Lesson Success)
+// Duo Speech Signature Rising Chime (Lesson Success)
 export function playSuccessSound() {
   if (!isSoundEnabled()) return;
   const ctx = getAudioContext();
@@ -57,7 +57,7 @@ export function playSuccessSound() {
   });
 }
 
-// Duolingo Soft Bonk Reminder (Needs Practice)
+// Duo Speech Soft Bonk Reminder (Needs Practice)
 export function playErrorSound() {
   if (!isSoundEnabled()) return;
   const ctx = getAudioContext();
@@ -86,7 +86,7 @@ export function playErrorSound() {
   });
 }
 
-// Duolingo Button Pop (Tactile feedback)
+// Duo Speech Button Pop (Tactile feedback)
 export function playClickSound() {
   if (!isSoundEnabled()) return;
   const ctx = getAudioContext();
@@ -109,7 +109,7 @@ export function playClickSound() {
   osc.stop(ctx.currentTime + 0.06);
 }
 
-// Duolingo Lesson Complete Fanfare
+// Duo Speech Lesson Complete Fanfare
 export function playFanfareSound() {
   if (!isSoundEnabled()) return;
   const ctx = getAudioContext();
@@ -142,7 +142,7 @@ export function playFanfareSound() {
   });
 }
 
-// Duolingo Streak Flame Sound
+// Duo Speech Streak Flame Sound
 export function playStreakSound() {
   if (!isSoundEnabled()) return;
   const ctx = getAudioContext();

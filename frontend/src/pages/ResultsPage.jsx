@@ -13,7 +13,7 @@ export default function ResultsPage() {
   const { streak } = useGamification();
 
   useEffect(() => {
-    // Duolingo Confetti Blast & Fanfare Chime on complete
+    // Duo Speech Confetti Blast & Fanfare Chime on complete
     playFanfareSound();
     confetti({
       particleCount: 120,

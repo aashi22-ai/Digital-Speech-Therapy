@@ -55,7 +55,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col md:flex-row select-none">
-      {/* Duolingo Sidebar Navigation */}
+      {/* Duo Speech Sidebar Navigation */}
       <DuoSidebar />
 
       {/* Main Content Area */}
@@ -67,7 +67,7 @@ export default function Dashboard() {
         />
 
         <div className="max-w-6xl mx-auto w-full px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Center Column: The Duolingo Learning Path (The Snake) */}
+          {/* Center Column: The Duo Speech Learning Path (The Snake) */}
           <div className="lg:col-span-2">
             {/* Quick Filters Pill Bar */}
             <div className="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-none mb-2">
@@ -153,7 +153,7 @@ export default function Dashboard() {
             )}
           </div>
 
-          {/* Right Column: Duolingo Widgets (Quests, League, Mascot encouragement) */}
+          {/* Right Column: Duo Speech Widgets (Quests, League, Mascot encouragement) */}
           <div className="space-y-5 hidden lg:block">
             {/* Daily Streak Card */}
             <div className="bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-200 rounded-3xl p-5 shadow-xs">

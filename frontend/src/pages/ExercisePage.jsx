@@ -525,7 +525,7 @@ export default function ExercisePage() {
             </p>
           )}
 
-          {/* Big Duolingo Microphone Button */}
+          {/* Big Duo Speech Microphone Button */}
           {!resultData && (
             <div className="relative">
               {isRecording ? (
@@ -579,7 +579,7 @@ export default function ExercisePage() {
         </div>
       </main>
 
-      {/* Duolingo Slide-Up Evaluation Bottom Bar */}
+      {/* Duo Speech Slide-Up Evaluation Bottom Bar */}
       <footer
         className={`w-full border-t-2 py-5 px-6 transition-colors duration-300 ${
           resultData

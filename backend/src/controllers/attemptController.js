@@ -67,7 +67,7 @@ const createAttempt = asyncHandler(async (req, res) => {
   const combinedScore = (analysis.pronunciation_score + analysis.fluency_score) / 2;
   let progress = await Progress.findOne({ userId: req.user._id });
 
-  // Calculate XP earned (Duolingo style)
+  // Calculate XP earned (Duo Speech style)
   let xpEarned = 10;
   if (analysis.pronunciation_score >= 80) xpEarned += 5;
   if (combinedScore >= 90) xpEarned += 5;

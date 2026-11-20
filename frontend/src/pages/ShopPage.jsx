@@ -100,7 +100,7 @@ export default function ShopPage() {
           <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-3xl p-6 text-white shadow-md flex items-center justify-between">
             <div className="space-y-1">
               <span className="text-[11px] font-black uppercase tracking-widest text-white/80">
-                Duolingo Store
+                Duo Speech Store
               </span>
               <h1 className="text-2xl font-black">Speech Shop</h1>
               <p className="text-xs font-bold text-white/90">

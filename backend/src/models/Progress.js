@@ -11,7 +11,7 @@ const progressSchema = new mongoose.Schema(
     totalAttempts: { type: Number, default: 0 },
     averageScore: { type: Number, default: 0 },
     lastPracticed: { type: Date },
-    // Duolingo gamification mechanics
+    // Duo Speech gamification mechanics
     xp: { type: Number, default: 0 },
     weeklyXp: { type: Number, default: 0 },
     streak: { type: Number, default: 1 },

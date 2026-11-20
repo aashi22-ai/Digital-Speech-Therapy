@@ -14,7 +14,7 @@
 }
 
 @layer components {
-  /* Duolingo 3D Tactile Buttons */
+  /* Duo Speech 3D Tactile Buttons */
   .btn-duo {
     @apply select-none font-extrabold uppercase tracking-wider text-sm rounded-2xl px-6 py-3 transition-all duration-100 flex items-center justify-center gap-2 border-b-4 active:border-b-0 active:translate-y-1 disabled:opacity-50 disabled:pointer-events-none disabled:transform-none disabled:border-b-4;
   }
@@ -47,7 +47,7 @@
     @apply btn-duo bg-transparent text-duo-blue border-2 border-b-4 border-duo-blue-dark hover:bg-duo-blue-light/30 active:border-b-2;
   }
 
-  /* Duolingo Card style */
+  /* Duo Speech Card style */
   .card-duo {
     @apply bg-white rounded-2xl border-2 border-duo-gray p-5 shadow-sm transition hover:border-slate-300;
   }

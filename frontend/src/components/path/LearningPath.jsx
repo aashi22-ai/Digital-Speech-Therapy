@@ -35,7 +35,7 @@ export default function LearningPath({ exercises = [], currentLanguage = "en" })
     window.speechSynthesis.speak(utt);
   };
 
-  // Structured Duolingo Units & Language Tutorials
+  // Structured Duo Speech Units & Language Tutorials
   const units = [
     {
       unitNumber: 1,
