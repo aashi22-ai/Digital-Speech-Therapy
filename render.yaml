@@ -47,7 +47,7 @@ services:
         fromService:
           type: web
           name: digital-speech-therapy-ai
-          property: host
+          envVarKey: RENDER_EXTERNAL_URL
 
   # ===============================================================
   # 3. Frontend (React Vite SPA)
@@ -67,4 +67,4 @@ services:
         fromService:
           type: web
           name: digital-speech-therapy-backend
-          property: host
+          envVarKey: RENDER_EXTERNAL_URL
