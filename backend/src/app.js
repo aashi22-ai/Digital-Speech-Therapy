@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 
@@ -25,6 +27,16 @@ app.use("/api/progress", require("./routes/progressRoutes"));
 app.use("/api", (req, res) => {
   res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}` });
 });
+
+// Serve built frontend if available (e.g. unified deployment)
+const frontendDist = path.resolve(__dirname, "../../frontend/dist");
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api")) return next();
+    res.sendFile(path.join(frontendDist, "index.html"));
+  });
+}
 
 // Centralized error handler. Recognizes a few common error shapes
 // (multer upload errors, Mongoose validation/cast errors) and turns

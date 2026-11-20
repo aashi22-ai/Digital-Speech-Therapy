@@ -1,0 +1,70 @@
+# Render Blueprint Configuration (Infrastructure-as-Code)
+# Documentation: https://render.com/docs/blueprint-spec
+
+services:
+  # ===============================================================
+  # 1. AI Service (Python FastAPI + faster-whisper + Gemini API)
+  # ===============================================================
+  - type: web
+    name: digital-speech-therapy-ai
+    runtime: python
+    rootDir: ai-service
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /ai/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: WHISPER_MODEL_SIZE
+        value: tiny
+      - key: WHISPER_COMPUTE_TYPE
+        value: int8
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+
+  # ===============================================================
+  # 2. Backend (Node.js Express + MongoDB)
+  # ===============================================================
+  - type: web
+    name: digital-speech-therapy-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: AI_SERVICE_URL
+        fromService:
+          type: web
+          name: digital-speech-therapy-ai
+          property: host
+
+  # ===============================================================
+  # 3. Frontend (React Vite SPA)
+  # ===============================================================
+  - type: static
+    name: digital-speech-therapy-frontend
+    rootDir: frontend
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: digital-speech-therapy-backend
+          property: host

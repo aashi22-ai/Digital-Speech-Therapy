@@ -2,7 +2,11 @@ const axios = require("axios");
 const fs = require("fs");
 const FormData = require("form-data");
 
-const AI_SERVICE_URL = process.env.AI_SERVICE_URL || "http://localhost:8000";
+let rawAiUrl = process.env.AI_SERVICE_URL || "http://localhost:8000";
+if (rawAiUrl && !rawAiUrl.startsWith("http://") && !rawAiUrl.startsWith("https://")) {
+  rawAiUrl = `https://${rawAiUrl}`;
+}
+const AI_SERVICE_URL = rawAiUrl.replace(/\/+$/, "");
 
 const transcribeAudio = async (audioFilePath, language) => {
   const form = new FormData();

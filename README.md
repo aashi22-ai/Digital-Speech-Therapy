@@ -63,6 +63,59 @@ Open http://localhost:5173
 
 ---
 
+## Deploying to Render
+
+This repository includes a pre-configured `render.yaml` Blueprint to automatically deploy the Frontend, Backend, and AI Service to Render.
+
+### Option A: One-Click Blueprint Deployment (Recommended)
+
+1. Log in to your [Render Dashboard](https://dashboard.render.com/).
+2. Click **New +** and select **Blueprint**.
+3. Connect your GitHub repository: `https://github.com/aashi22-ai/Digital-Speech-Therapy.git`.
+4. Render will parse `render.yaml` and discover all 3 services automatically:
+   - **`digital-speech-therapy-ai`** (Python / FastAPI)
+   - **`digital-speech-therapy-backend`** (Node.js / Express)
+   - **`digital-speech-therapy-frontend`** (Static Site / React)
+5. Fill in the two required secret environment variables prompted by Render:
+   - `MONGO_URI`: Your MongoDB Atlas connection string (e.g. `mongodb+srv://...`).
+   - `GEMINI_API_KEY`: Your Google Gemini API key.
+6. Click **Apply**. Render will build and deploy all services!
+
+### Option B: Manual Service Creation on Render
+
+If you prefer deploying services individually:
+
+#### 1. AI Service (Web Service)
+- **Root Directory:** `ai-service`
+- **Runtime:** `Python 3`
+- **Build Command:** `pip install -r requirements.txt`
+- **Start Command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- **Health Check Path:** `/ai/health`
+- **Environment Variables:**
+  - `GEMINI_API_KEY`: `<your_gemini_key>`
+  - `WHISPER_MODEL_SIZE`: `tiny`
+
+#### 2. Backend (Web Service)
+- **Root Directory:** `backend`
+- **Runtime:** `Node`
+- **Build Command:** `npm install`
+- **Start Command:** `node server.js`
+- **Health Check Path:** `/api/health`
+- **Environment Variables:**
+  - `MONGO_URI`: `<your_mongo_uri>`
+  - `JWT_SECRET`: `<random_32_char_secret>`
+  - `AI_SERVICE_URL`: `<url_of_deployed_ai_service>` (e.g. `https://digital-speech-therapy-ai.onrender.com`)
+
+#### 3. Frontend (Static Site)
+- **Root Directory:** `frontend`
+- **Build Command:** `npm install && npm run build`
+- **Publish Directory:** `dist`
+- **Rewrite Rule:** Source `/*` -> Destination `/index.html`
+- **Environment Variable:**
+  - `VITE_API_URL`: `<url_of_deployed_backend>/api` (e.g. `https://digital-speech-therapy-backend.onrender.com/api`)
+
+---
+
 ## Duo Speech Gamification & Themed Features
 
 - **The Learning Path ("The Snake"):**
